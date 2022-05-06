@@ -1,3 +1,7 @@
+// This file was used to allow get requests to the storage bucker from
+// all sources. Further access restrictons may be placed once the request is
+// received.
+
 [
   {
     "origin": ["*"],
