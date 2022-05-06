@@ -3,6 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { db } from "../config/firebase";
+import { getStorage } from "firebase/storage";
+
 
 export default function CrudApp() {
   const [userDoc, setUserDoc] = useState("");
@@ -56,6 +58,10 @@ export default function CrudApp() {
       alert(error.message);
     }
   };
+
+  const storage = getStorage(app);
+  const storageRef = ref(storage);
+
 
   return (
     <View style={styles.container}>
