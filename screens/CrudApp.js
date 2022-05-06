@@ -2,8 +2,8 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import { db } from "../config/firebase";
-import { getStorage } from "firebase/storage";
+import { db, storage } from "../config/firebase";
+import { ref } from "firebase/storage";
 
 
 export default function CrudApp() {
@@ -59,8 +59,9 @@ export default function CrudApp() {
     }
   };
 
-  const storage = getStorage(app);
-  const storageRef = ref(storage);
+  const listRef = ref(storage, '/');
+
+  console.log("Is it working?", listRef)
 
 
   return (
