@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { ThemeProvider } from "react-native-elements";
 import "./config/firebase";
 import RootNavigation from "./navigation";
 // import { initializeApp, applicationDefault, cert } from "firebase-admin/app";
@@ -54,7 +55,11 @@ import RootNavigation from "./navigation";
 // writeShoop();
 
 export default function App() {
-  return <RootNavigation />;
+  return (
+    <ThemeProvider>
+      <RootNavigation />
+    </ThemeProvider>
+  );
 }
 // <View style={styles.container}>
 {
