@@ -4,6 +4,7 @@ import { useAuthentication } from "../utils/hooks/useAuthentication";
 import { Button } from "react-native-elements";
 import { getAuth, signOut } from "firebase/auth";
 import CrudApp from "./CrudApp";
+import StorageApp from "./StorageApp";
 
 const auth = getAuth();
 
@@ -13,7 +14,8 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text>Welcome {user?.email}!</Text>
-      <CrudApp />
+      {/* <CrudApp /> */}
+      <StorageApp />
       <Button
         title="Sign Out"
         style={styles.button}
