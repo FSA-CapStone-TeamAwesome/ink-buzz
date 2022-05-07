@@ -6,10 +6,14 @@ export default function StorageApp() {
 
   const storage = getStorage(app);
   const image = ref(storage, 'images/universal/demoTattoo.png');
-  const actualImage = getDownloadURL(image)
 
-  console.log("Now")
-  console.log(actualImage)
+  getDownloadURL(image).then((url) => {
+    console.log("This is the url")
+    console.log(url)
+  })
+
+  //console.log("Now")
+
 
 
 
