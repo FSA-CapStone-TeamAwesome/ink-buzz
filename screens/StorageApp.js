@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, setState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { getStorage, ref, getDownloadURL, getBlob } from "firebase/storage";
 import app from "../config/firebase"
@@ -12,32 +12,20 @@ export default function StorageApp() {
   const storage = getStorage(app);
   const image = ref(storage, 'images/universal/demoTattoo.png');
 
-  // const [ newUrl ] = useState("");
-
-  let newUrl = '';
-
-  // getDownloadURL(image).then((url) => {
-  //   console.log("This is the url")
-  //   console.log(url)
-  // })
-
-  getBlob(image).then((blob) => {
-    newUrl = URL.createObjectURL(blob)
-    console.log(newUrl)
-  })
-
+  const [imageUrl, setImageUrl] = useState('assets/adaptive-icon.png');
 
   useEffect(() => {
-    console.log(newUrl)
+    getBlob(image).then((blob) => {
+      const useUrl = URL.createObjectURL(blob);
+      setImageUrl(useUrl)
+    })
   }, [])
-
-
-
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: newUrl}} />
-      <Text>Storage module is working. {newUrl} Is it?</Text>
+      <Image source={{ uri: imageUrl}}
+      style={{width: 400, height: 400}} />
+      <Text>Storage module is working. {imageUrl} Is it?</Text>
     </View>
   );
 }
