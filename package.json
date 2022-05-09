@@ -16,6 +16,7 @@
     "expo": "~44.0.0",
     "expo-camera": "^12.2.0",
     "expo-constants": "~13.0.1",
+    "expo-image-picker": "~12.0.1",
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.7.0",
     "firebase-admin": "^10.1.0",
@@ -23,14 +24,8 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-elements": "^3.4.2",
-<<<<<<< HEAD
     "react-native-image-picker": "^4.8.2",
-    "react-native-web": "0.17.1",
-    "expo-image-picker": "~12.0.1"
-=======
-    "react-native-web": "0.17.1",
-    "expo-camera": "~12.1.2"
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

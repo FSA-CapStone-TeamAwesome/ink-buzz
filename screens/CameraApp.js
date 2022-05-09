@@ -1,10 +1,6 @@
 import { useState, useEffect, setState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-<<<<<<< HEAD
 import { getStorage, ref, getBlob, uploadBytes, uploadString } from "firebase/storage";
-=======
-import { getStorage, ref, getBlob, uploadBytes } from "firebase/storage";
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
 import { Camera, pausePreview } from 'expo-camera';
 
 
@@ -42,17 +38,12 @@ export default function CameraApp() {
 
   // State mgmt of front or rear facing camera, toggled in line.
   const [type, setType] = useState(Camera.Constants.Type.back);
-<<<<<<< HEAD
   const [image, setImage] = useState(null)
-=======
-
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
 
   const uploadImageRef = ref(storage, 'images/universal/uploadTests/test1.png');
 
   takePicture = async () => {
     if (this.camera) {
-<<<<<<< HEAD
         // await this.camera.takePictureAsync(null).then(photo => {
         //   console.log(photo)
         //   uploadBytes(uploadImageRef, photo.uri)
@@ -63,15 +54,9 @@ export default function CameraApp() {
 
       let file = await fetch(data.uri)
       let blob = await file.blob()
-
+      console.log(blob)
       uploadBytes(uploadImageRef, blob)
 
-=======
-        await this.camera.takePictureAsync(null).then(photo => {
-          console.log(photo.uri)
-          uploadBytes(uploadImageRef, photo.uri)
-          });
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
         };
     }
 
@@ -107,24 +92,16 @@ export default function CameraApp() {
           </TouchableOpacity>
         </View>
       </Camera>
-<<<<<<< HEAD
       {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> }
-=======
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cameraContainer: {
-<<<<<<< HEAD
     width: '90%',
     height: '50%',
     flex: 1,
-=======
-    flex: 1,
-    width: 400,
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
   },
   camera: {
     flex: 1,

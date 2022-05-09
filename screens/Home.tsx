@@ -3,17 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import { Button } from "react-native-elements";
 import { getAuth, signOut } from "firebase/auth";
-<<<<<<< HEAD
 import Pictures from "./Camera";
 import CrudApp from "./CrudApp";
 import StorageApp from "./StorageApp";
 import CameraApp from "./CameraApp";
-
-=======
-import CrudApp from "./CrudApp";
-import StorageApp from "./StorageApp";
-import CameraApp from "./CameraApp";
->>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf
 
 const auth = getAuth();
 
