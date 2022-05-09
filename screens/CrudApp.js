@@ -6,7 +6,6 @@ import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
 
 import { getStorage, ref } from "firebase/storage"
 
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { db, app } from "../config/firebase";
 // import { db, storage } from "../config/firebase";
 

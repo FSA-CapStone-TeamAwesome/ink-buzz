@@ -1,6 +1,6 @@
 import { useState, useEffect, setState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { getStorage, ref, getBlob, uploadBytes } from "firebase/storage";
+import { getStorage, ref, getBlob, uploadBytes, uploadString } from "firebase/storage";
 import { Camera, pausePreview } from 'expo-camera';
 
 
@@ -38,16 +38,25 @@ export default function CameraApp() {
 
   // State mgmt of front or rear facing camera, toggled in line.
   const [type, setType] = useState(Camera.Constants.Type.back);
-
+  const [image, setImage] = useState(null)
 
   const uploadImageRef = ref(storage, 'images/universal/uploadTests/test1.png');
 
   takePicture = async () => {
     if (this.camera) {
-        await this.camera.takePictureAsync(null).then(photo => {
-          console.log(photo.uri)
-          uploadBytes(uploadImageRef, photo.uri)
-          });
+        // await this.camera.takePictureAsync(null).then(photo => {
+        //   console.log(photo)
+        //   uploadBytes(uploadImageRef, photo.uri)
+        //   });
+        let data = await this.camera.takePictureAsync(null)
+      console.log(data)
+      setImage(data.uri)
+
+      let file = await fetch(data.uri)
+      let blob = await file.blob()
+
+      uploadBytes(uploadImageRef, blob)
+
         };
     }
 
@@ -83,14 +92,16 @@ export default function CameraApp() {
           </TouchableOpacity>
         </View>
       </Camera>
+      {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> }
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cameraContainer: {
+    width: '90%',
+    height: '50%',
     flex: 1,
-    width: 400,
   },
   camera: {
     flex: 1,

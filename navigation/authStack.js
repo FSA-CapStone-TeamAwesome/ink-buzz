@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "../screens/Welcome";
 import SignInScreen from "../screens/SignInScreen";
 import SignOutScreen from "../screens/SignUpScreen";
-import CrudApp from "../screens/MainScreen";
+import CrudApp from "../screens/CrudApp"
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
