@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+<<<<<<< HEAD:screens/CrudApp.js
 
 import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
 
@@ -10,6 +11,12 @@ import { db, app } from "../config/firebase";
 // import { db, storage } from "../config/firebase";
 
 
+=======
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { db, app } from "../config/firebase";
+// import { db, storage } from "../config/firebase";
+
+>>>>>>> 26e857c2c390179837ec20052823e79fa6929dcf:screens/MainScreen.js
 
 export default function CrudApp() {
   const [userDoc, setUserDoc] = useState("");
