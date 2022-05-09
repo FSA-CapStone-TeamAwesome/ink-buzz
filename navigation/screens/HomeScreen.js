@@ -9,8 +9,10 @@ const HomeScreen = () => {
   const { user } = useAuthentication();
   return (
     <View>
-      <Text>Welcome {user?.email}!</Text>
-      <CameraApp />
+      <Text style={styles.text}>Welcome {user?.email}!</Text>
+      <View>
+        
+      </View>
       <Button
         title="Sign Out"
         style={styles.button}
@@ -35,6 +37,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 24,
   },
 });
 
