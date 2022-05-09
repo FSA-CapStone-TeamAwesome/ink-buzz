@@ -5,11 +5,20 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+  ImagePickerIOS,
+  Button,
+  Image
 } from 'react-native';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { Camera } from 'expo-camera';
 import app from '../../config/firebase';
+import * as ImagePicker from 'expo-image-picker'
+import { getAuth, signOut } from 'firebase/auth';
+import { useAuthentication } from '../../utils/hooks/useAuthentication';
+
+
 const windowWidth = Dimensions.get('window').width;
+
 export default function CameraApp() {
   /*  Firebase 9 is very modular, so you invoke different
   modules as needed. The configured app is passed as an
@@ -22,19 +31,38 @@ export default function CameraApp() {
   /* This is state management for whether the app has permission to use
   the camera... on initial loading of the component the app will request
   permission. */
-  const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [image, setImage] = useState(null);
+  const [cameraAccess, setCameraAccess] = useState(null)
+  const [galleryAccess, setGalleryAccess] = useState(null)
+  const [camera, setCam] = useState(null)
+
+
+  const auth = getAuth();
+  const { user } = useAuthentication();
+
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+      const cam = await Camera.requestCameraPermissionsAsync()
+      setCameraAccess(cam.status === 'granted')
+      const gallery = await ImagePicker.requestMediaLibraryPermissionsAsync()
+      setGalleryAccess(gallery.status === 'granted')
+
+
+
     })();
   }, []);
   // State management of front or rear facing camera, toggled in line.
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [image, setImage] = useState(null);
-  const uploadImageRef = ref(storage, 'images/universal/uploadTests/test1.png');
+
+
+
+
+
+
+
   takePicture = async () => {
     if (this.camera) {
+      const uploadImageRef = ref(storage, `images/universal/${user.uid}/testJC.png`);
       let data = await this.camera.takePictureAsync(null);
       setImage(data.uri);
       let file = await fetch(data.uri);
@@ -42,12 +70,36 @@ export default function CameraApp() {
       uploadBytes(uploadImageRef, blob);
     }
   };
-  if (hasPermission === null) {
-    return <View />;
+  if (cameraAccess=== null) {
+    return <View  />;
   }
-  if (hasPermission === false) {
+  if (cameraAccess === false) {
     return <Text>No access to camera</Text>;
   }
+
+
+ pickImage = async () => {
+  const uploadImageRef = ref(storage, `images/universal/${user.uid}/testJC.png`);
+  let result = await ImagePicker.launchImageLibraryAsync({
+  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  quality:1,
+  })
+
+  if(!result.cancelled){
+    let file = await fetch(result.uri)
+    let blob = await file.blob()
+    uploadBytes(uploadImageRef, blob)
+  setImage(result.uri)
+
+  }
+
+  }
+
+
+
+
+
+
   /*
   Notice the ref={{}}; the camera is simply unavailable without it.
   */
@@ -59,13 +111,28 @@ export default function CameraApp() {
         ref={(ref) => {
           this.camera = ref;
         }}>
+          <TouchableOpacity
+
+          onPress={() => {
+          setType(
+          type === Camera.Constants.Type.back
+          ? Camera.Constants.Type.front
+          : Camera.Constants.Type.back
+          );
+          }}>
+        <Text > Flip </Text>
+        </TouchableOpacity>
+
+
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={this.takePicture}>
             <Text style={styles.text}> Take </Text>
           </TouchableOpacity>
         </View>
       </Camera>
-      {/* {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> } */}
+      <Button title='Pick Image From Gallery' onPress = {this.pickImage} />
+      {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> }
     </View>
   );
 }
@@ -84,7 +151,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   button: {
-    flex: 0.1,
+    flex: 0.2,
     alignSelf: 'flex-end',
     alignItems: 'center',
   },
