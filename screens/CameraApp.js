@@ -1,7 +1,7 @@
 import { useState, useEffect, setState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { getStorage, ref, getBlob, uploadBytes } from "firebase/storage";
-import { Camera } from 'expo-camera';
+import { Camera, pausePreview } from 'expo-camera';
 
 
 import app from "../config/firebase"
@@ -42,7 +42,19 @@ export default function CameraApp() {
   const [type, setType] = useState(Camera.Constants.Type.back);
 
 
+  const [paused, setPaused] = useState(false)
 
+
+
+    takePicture = () => {
+      if (this.camera) {
+          this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
+      }
+   };
+
+  onPictureSaved = photo => {
+      console.log(photo);
+  }
 
 
   useEffect(() => {
@@ -59,22 +71,14 @@ export default function CameraApp() {
   }
 
 
-
   return (
     <View style={styles.cameraContainer}>
-      <Camera style={styles.camera} type={type}>
+      <Camera style={styles.camera} type={type} ref={(ref) => { this.camera = ref }}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              console.log("Pressed.")
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
+            onPress={this.takePicture} >
+            <Text style={styles.text}> Take </Text>
           </TouchableOpacity>
         </View>
       </Camera>
