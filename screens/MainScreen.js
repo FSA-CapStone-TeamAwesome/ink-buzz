@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
 import { db } from "../config/firebase";
+import { getStorage, ref } from "firebase/storage"
+
 
 export default function CrudApp() {
   const [userDoc, setUserDoc] = useState("");
   const [text, setText] = useState("");
+
+  const storage = getStorage()
+  const picture = ref(storage, 'gs://ink-buzz.appspot.com/images/universal/demoTattoo.png')
+
 
   const Create = async () => {
     const myDoc = doc(db, "MyCollectionName", "MyDocument");
@@ -57,11 +63,15 @@ export default function CrudApp() {
     }
   };
 
+  console.log(picture)
   return (
     <View style={styles.container}>
       <Button title="Create New Doc" onPress={Create}></Button>
       <Button title="Read Doc" onPress={Read}></Button>
       {userDoc != null && <Text>Bio: {userDoc.bio}</Text>}
+      <Image
+      source= {{uri: 'ink-buzz.appspot.com/images/universal/demoTattoo.png'}}
+      />
       <TextInput
         style={{
           width: "95%",
