@@ -1,11 +1,13 @@
 import { useState, useEffect, setState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
 import { getStorage, ref, getBlob, uploadBytes, uploadString } from "firebase/storage";
 import { Camera, pausePreview } from 'expo-camera';
 
 
 import app from "../config/firebase"
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function CameraApp() {
 
@@ -92,16 +94,16 @@ export default function CameraApp() {
           </TouchableOpacity>
         </View>
       </Camera>
-      {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> }
+      {/* {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> } */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cameraContainer: {
-    width: '90%',
-    height: '50%',
-    flex: 1,
+    width: windowWidth,
+    height: windowWidth,
+    // flex: 1,
   },
   camera: {
     flex: 1,
