@@ -18,11 +18,9 @@ export default function CameraApp() {
   /* const image = ref(storage, 'images/universal/demoTattooWarped.png');
   const image = ref(storage, 'images/universal/demoTattoo.png'); */
 
-  const uploadImageRef = ref(storage, 'images/universal/uploadTests/test1.png');
 
   // If a placeholder isn't provided, a warning about empty urls occurs
   const [imageUrl, setImageUrl] = useState('assets/adaptive-icon.png');
-  const [uploadImageSource, setUploadImageSource] = useState('assets/UploadTest.png');
 
 
   /* This is state management for whether the app has permission to use
@@ -42,26 +40,23 @@ export default function CameraApp() {
   const [type, setType] = useState(Camera.Constants.Type.back);
 
 
-  const [paused, setPaused] = useState(false)
+  const uploadImageRef = ref(storage, 'images/universal/uploadTests/test1.png');
+
+  takePicture = async () => {
+    if (this.camera) {
+        await this.camera.takePictureAsync().then(photo => {
+          uploadBytes(uploadImageRef, photo)
+          });
+        };
+    }
+
+  // onPictureSaved = photo => {
+
+  //     uploadBytes(uploadImageRef, photo).then((snapshot) => {
+  //       console.log('Uploaded photo?');
+  //     });
 
 
-
-    takePicture = () => {
-      if (this.camera) {
-          this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
-      }
-   };
-
-  onPictureSaved = photo => {
-      console.log(photo);
-  }
-
-
-  useEffect(() => {
-    uploadBytes(uploadImageRef, uploadImageSource).then((snapshot) => {
-      // console.log('Uploaded a blob or file!');
-    });
-  }, [])
 
   if (hasPermission === null) {
     return <View />;
@@ -70,6 +65,10 @@ export default function CameraApp() {
     return <Text>No access to camera</Text>;
   }
 
+
+  /*
+  Notice the ref={{}}; the camera is simply unavailable without it.
+  */
 
   return (
     <View style={styles.cameraContainer}>
