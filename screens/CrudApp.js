@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+
 import { Button, StyleSheet, Text, TextInput, View, Image } from "react-native";
-import { db } from "../config/firebase";
+
 import { getStorage, ref } from "firebase/storage"
+
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { db, app } from "../config/firebase";
+// import { db, storage } from "../config/firebase";
+
 
 
 export default function CrudApp() {

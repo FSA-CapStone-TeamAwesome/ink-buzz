@@ -32,6 +32,7 @@ export default function CamComp () {
     })
 
     if(!result.cancelled){
+      console.log(result.uri)
       setImage(result.uri)
     }
   }
