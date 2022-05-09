@@ -1,25 +1,21 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Button } from 'react-native';
+import CameraApp from './CameraApp';
+import { useAuthentication } from '../../utils/hooks/useAuthentication';
+import { getAuth, signOut } from 'firebase/auth';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
+  const auth = getAuth();
+  const { user } = useAuthentication();
   return (
     <View>
-      <View style={styles.container}>
-        <Image
-          source={{ uri: 'https://reactjs.org/logo-og.png' }}
-          style={styles.logo}
-        />
-        <Image
-          source={{ uri: 'https://reactjs.org/logo-og.png' }}
-          style={styles.logo}
-        />
-      </View>
-
-      {/* <Text
-        onPress={() => alert('This is the Home Screen')}
-        style={{ fontSize: 26, fontWeight: 'bold' }}>
-        Home Screen
-      </Text> */}
+      <Text>Welcome {user?.email}!</Text>
+      <CameraApp />
+      <Button
+        title="Sign Out"
+        style={styles.button}
+        onPress={() => signOut(auth)}
+      />
     </View>
   );
 };
@@ -27,11 +23,18 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 25,
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     marginTop: 10,
     width: 100,
     height: 100,
+  },
+  button: {
+    marginTop: 10,
   },
 });
 

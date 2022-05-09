@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useAuthentication } from '../utils/hooks/useAuthentication';
 import { Button } from 'react-native-elements';
 import { getAuth, signOut } from 'firebase/auth';
-import CrudApp from './MainScreen';
+// import CrudApp from './CrudApp';
 import MainFeed from './MainFeed';
-import CameraApp from './CameraApp';
+import CameraApp from '../navigation/screens/CameraApp';
 
 const auth = getAuth();
 
