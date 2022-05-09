@@ -5,6 +5,7 @@ import { Button } from "react-native-elements";
 import { getAuth, signOut } from "firebase/auth";
 import CrudApp from "./CrudApp";
 import StorageApp from "./StorageApp";
+import CameraApp from "./CameraApp";
 
 const auth = getAuth();
 
@@ -15,7 +16,8 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text>Welcome {user?.email}!</Text>
       {/* <CrudApp /> */}
-      <StorageApp />
+      <CameraApp />
+      {/* <StorageApp /> */}
       <Button
         title="Sign Out"
         style={styles.button}
@@ -33,6 +35,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    marginTop: 10,
+    margin: 10,
   },
 });
