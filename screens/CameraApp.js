@@ -44,8 +44,9 @@ export default function CameraApp() {
 
   takePicture = async () => {
     if (this.camera) {
-        await this.camera.takePictureAsync().then(photo => {
-          uploadBytes(uploadImageRef, photo)
+        await this.camera.takePictureAsync(null).then(photo => {
+          console.log(photo.uri)
+          uploadBytes(uploadImageRef, photo.uri)
           });
         };
     }
@@ -61,6 +62,7 @@ export default function CameraApp() {
   if (hasPermission === null) {
     return <View />;
   }
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
