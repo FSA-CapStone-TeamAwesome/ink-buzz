@@ -1,6 +1,6 @@
 This is the file for the database authorization log, the current db state will be recorded here.
 
-**BEGIN DB RULLES LOG \***
+**BEGIN DB RULLES LOG**
 rules_version = '2';
 service cloud.firestore {
 match /databases/{database}/documents {
@@ -10,7 +10,7 @@ allow read, write: if request.auth !=null
 }
 }
 
-**END DB RULES LOG \***
+**END DB RULES LOG**
 
 //drawback, you do not get feedback back for rejected calls
 
@@ -31,3 +31,22 @@ allow read, write: if request.auth !=null
 // allow update: if get(/databases/$(database)/documents/restaurants/$()restaurantId)/private_data/private).data.roles(request.auth.uid) in ['editor', 'owner']
 
 //you can create functions
+
+---
+
+**START OF STORAGE**
+rules_version = '2';
+service firebase.storage {
+match /b/{bucket}/o {
+match /{allPaths=**} {
+allow read: if request.auth != null;
+}
+match /images/universal/{userUID}/{documents=**} {
+allow write: if request.auth.uid == userUID
+}
+}
+}
+
+**END OF STORAGE**
+
+//Any user can see any file, but only users can edit files within their folder.
