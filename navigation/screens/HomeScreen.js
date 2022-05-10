@@ -10,7 +10,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { useAuthentication } from '../../utils/hooks/useAuthentication';
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 
 const DATA = [
   {
@@ -57,7 +58,6 @@ const Item = ({ title }) => (
 );
 
 const HomeScreen = () => {
-  const auth = getAuth();
   const { user } = useAuthentication();
 
   const renderItem = ({ item }) => {
