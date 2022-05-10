@@ -1,16 +1,17 @@
-This is the file for the database authorization log, the current db state will be recorded here.
-
-**BEGIN DB RULLES LOG**
 rules_version = '2';
 service cloud.firestore {
 match /databases/{database}/documents {
-match /{document= \*\*} {
+match /{document=\*\*} {
 allow read, write: if request.auth !=null
 }
 }
 }
 
-**END DB RULES LOG**
+//TO BE ADDED WHEN WE CHANGE DATA ORGANIZATION
+
+//match /{userUID}{
+//allow write if request.auth.uid == userUID || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true
+//}
 
 //drawback, you do not get feedback back for rejected calls
 
@@ -25,6 +26,7 @@ allow read, write: if request.auth !=null
 //db items are contained within the resourse object which is just called resource
 
 //https://www.youtube.com/watch?v=eW5MdE3ZcAw&t=208s
+//https://firebase.google.com/docs/firestore/security/rules-conditions
 
 //allow read: if resource.data.reviewerId == request.auth.uid
 

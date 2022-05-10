@@ -14,7 +14,7 @@ import { Camera } from 'expo-camera';
 import * as ImageManipulator from 'expo-image-manipulator';
 import app from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker'
-import { getAuth, signOut } from 'firebase/auth';
+import {auth} from '../../config/firebase';
 import { useAuthentication } from '../../utils/hooks/useAuthentication';
 
 
@@ -39,7 +39,6 @@ export default function CameraApp() {
   const [camera, setCam] = useState(null)
 
 
-  const auth = getAuth();
   const { user } = useAuthentication();
 
   useEffect(() => {
