@@ -1,30 +1,29 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Input, Button } from "react-native-elements";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth();
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input, Button } from 'react-native-elements';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 
 const SignUpScreen = ({ navigation }) => {
   const [value, setValue] = React.useState({
-    email: "",
-    password: "",
-    error: "",
+    email: '',
+    password: '',
+    error: '',
   });
 
   async function signUp() {
-    if (value.email === "" || value.password === "") {
+    if (value.email === '' || value.password === '') {
       setValue({
         ...value,
-        error: "Email and password are mandatory.",
+        error: 'Email and password are mandatory.',
       });
       return;
     }
 
     try {
       await createUserWithEmailAndPassword(auth, value.email, value.password);
-      navigation.navigate("Sign In");
+      navigation.navigate('Sign In');
     } catch (error) {
       setValue({
         ...value,
@@ -71,9 +70,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   controls: {
@@ -88,8 +87,8 @@ const styles = StyleSheet.create({
   error: {
     marginTop: 10,
     padding: 10,
-    color: "#fff",
-    backgroundColor: "#D54826FF",
+    color: '#fff',
+    backgroundColor: '#D54826FF',
   },
 });
 

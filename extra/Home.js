@@ -2,12 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useAuthentication } from '../utils/hooks/useAuthentication';
 import { Button } from 'react-native-elements';
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config/firebase';
 // import CrudApp from './CrudApp';
 import MainFeed from './MainFeed';
 import CameraApp from '../navigation/screens/CameraApp';
-
-const auth = getAuth();
 
 export default function HomeScreen() {
   const { user } = useAuthentication();
