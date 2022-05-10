@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { Camera } from 'expo-camera';
+import * as ImageManipulator from 'expo-image-manipulator';
 import app from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker'
 import { getAuth, signOut } from 'firebase/auth';
@@ -80,10 +81,26 @@ export default function CameraApp() {
 //This will transfer the file from local data to google storage
   const saveImage = async () => {
     let date = new Date
-    const uploadImageRef = ref(storage, `images/universal/${user.uid}/${date.valueOf()}.png`);
+    const uploadImageRef = ref(storage, `images/universal/${user.uid}/${date.valueOf()}.jpg`);
     //date.valueOf will convert the date into a string of numbers
-    let file = await fetch(image)
+
+    // Compressing an image
+    const compressedImage = await ImageManipulator.manipulateAsync(
+      image,
+      [{resize: {height: 500} }], // This method expects an array of transformations.
+      // If JPEG, quality is indicated by compress, with 1 highest, 0 lowest
+      { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
+  );
+
+    console.log(compressedImage)
+
+    // let file = await fetch(image)
+    let file = await fetch(compressedImage.uri)
     let blob = await file.blob()
+
+
+
+
 
     uploadBytes(uploadImageRef, blob)
     setImage(null)
