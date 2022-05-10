@@ -47,30 +47,18 @@ export default function CameraApp() {
       setCameraAccess(cam.status === 'granted')
       const gallery = await ImagePicker.requestMediaLibraryPermissionsAsync()
       setGalleryAccess(gallery.status === 'granted')
-
-
-
     })();
   }, []);
   // State management of front or rear facing camera, toggled in line.
 
-
-
-
-
-
-
-  takePicture = async () => {
+  const takePicture = async () => {
     if (this.camera) {
-      const uploadImageRef = ref(storage, `images/universal/${user.uid}/testJC.png`);
+
       let data = await this.camera.takePictureAsync(null);
       setImage(data.uri);
-      let file = await fetch(data.uri);
-      let blob = await file.blob();
-      uploadBytes(uploadImageRef, blob);
     }
   };
-  if (cameraAccess=== null) {
+  if (cameraAccess === null) {
     return <View  />;
   }
   if (cameraAccess === false) {
@@ -78,23 +66,28 @@ export default function CameraApp() {
   }
 
 
- pickImage = async () => {
-  const uploadImageRef = ref(storage, `images/universal/${user.uid}/testJC.png`);
+ const pickImage = async () => {
+
   let result = await ImagePicker.launchImageLibraryAsync({
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   quality:1,
   })
 
   if(!result.cancelled){
-    let file = await fetch(result.uri)
-    let blob = await file.blob()
-    uploadBytes(uploadImageRef, blob)
   setImage(result.uri)
+  }}
 
+//This will transfer the file from local data to google storage
+  const saveImage = async () => {
+    let date = new Date
+    const uploadImageRef = ref(storage, `images/universal/${user.uid}/${date.valueOf()}.png`);
+    //date.valueOf will convert the date into a string of numbers
+    let file = await fetch(image)
+    let blob = await file.blob()
+
+    uploadBytes(uploadImageRef, blob)
+    setImage(null)
   }
-
-  }
-
 
 
 
@@ -105,6 +98,14 @@ export default function CameraApp() {
   */
   return (
     <View style={styles.cameraContainer}>
+      {image ?
+      <>
+      <Image source = {{uri: image}} style={{flex:1}}/>
+      <Button title='Cancel' onPress={() => {setImage(null)}} />
+      <Button title='Save' onPress = {() => saveImage()} />
+      </>
+      :
+      <>
       <Camera
         style={styles.camera}
         type={type}
@@ -120,19 +121,20 @@ export default function CameraApp() {
           : Camera.Constants.Type.back
           );
           }}>
-        <Text > Flip </Text>
+        <Text style={styles.text} > Flip </Text>
         </TouchableOpacity>
 
 
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={this.takePicture}>
+          <TouchableOpacity style={styles.button} onPress={() => takePicture()}>
             <Text style={styles.text}> Take </Text>
           </TouchableOpacity>
         </View>
       </Camera>
-      <Button title='Pick Image From Gallery' onPress = {this.pickImage} />
-      {image ? <Image style={{flex:1}}source = {{uri: image}} />: <></> }
+      <Button title='Pick Image From Gallery' onPress = {() => pickImage()} />
+      </>
+      }
     </View>
   );
 }
