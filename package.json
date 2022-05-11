@@ -33,7 +33,9 @@
     "react-native-safe-area-context": "^3.4.1",
     "react-native-walletconnect": "^0.0.1-alpha.2",
     "react-native-web": "0.17.1",
-    "react-native-webview": "^11.15.0"
+    "react-native-webview": "^11.15.0",
+    "react-redux": "^8.0.1",
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
