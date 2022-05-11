@@ -14,7 +14,7 @@ import { Camera } from 'expo-camera';
 import * as ImageManipulator from 'expo-image-manipulator';
 import app from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker'
-import { getAuth, signOut } from 'firebase/auth';
+import {auth} from '../../config/firebase';
 import { useAuthentication } from '../../utils/hooks/useAuthentication';
 
 
@@ -39,7 +39,6 @@ export default function CameraApp() {
   const [camera, setCam] = useState(null)
 
 
-  const auth = getAuth();
   const { user } = useAuthentication();
 
   useEffect(() => {
@@ -83,7 +82,7 @@ export default function CameraApp() {
     let date = new Date
     const uploadImageRef = ref(storage, `images/universal/${user.uid}/${date.valueOf()}.jpg`);
     //date.valueOf will convert the date into a string of numbers
-
+    // const uploadImageRef = ref(storage, '/images/universal/5L87UUfr2CWtQchoy1mSC0thqWp2/cant.jpg')
     // Compressing an image
     const compressedImage = await ImageManipulator.manipulateAsync(
       image,
@@ -92,15 +91,9 @@ export default function CameraApp() {
       { compress: 0, format: ImageManipulator.SaveFormat.JPEG }
   );
 
-    console.log(compressedImage)
-
     // let file = await fetch(image)
     let file = await fetch(compressedImage.uri)
     let blob = await file.blob()
-
-
-
-
 
     uploadBytes(uploadImageRef, blob)
     setImage(null)
