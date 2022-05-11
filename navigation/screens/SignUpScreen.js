@@ -36,12 +36,10 @@ const SignUpScreen = ({ navigation }) => {
           data: {
             email: value.email,
             location: '',
-            followers: {},
-            following: {},
+            followers: [],
+            following: [],
           },
-          photos: {
-
-          },
+          photos: [],
            accounts: {
 
            }
