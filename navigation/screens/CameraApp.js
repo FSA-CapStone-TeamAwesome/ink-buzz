@@ -16,7 +16,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import app from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker'
 import {auth, db} from '../../config/firebase';
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, updateDoc, arrayUnion } from "firebase/firestore";
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -91,7 +91,8 @@ export default function CameraApp() {
 //This will transfer the file from local data to google storage
   const saveImage = async () => {
     let date = new Date
-    const uploadImageRef = ref(storage, `images/universal/${auth.currentUser.uid}/${date.valueOf()}.jpg`);
+    date = date.valueOf()
+    const uploadImageRef = ref(storage, `images/universal/${auth.currentUser.uid}/${date}.jpg`);
     //date.valueOf will convert the date into a string of numbers
     // const uploadImageRef = ref(storage, '/images/universal/5L87UUfr2CWtQchoy1mSC0thqWp2/cant.jpg')
     // Compressing an image
@@ -107,15 +108,16 @@ export default function CameraApp() {
     let blob = await file.blob()
 
     uploadBytes(uploadImageRef, blob)
-    let change = await getDoc(db, 'users', `${auth.currentUser.uid}`)
-    await setDoc(change, {
-      photos: [...change.photos, {
-        path: `images/universal/${auth.currentUser.uid}/${date}`,
+    let change = await doc(db, 'users', `${auth.currentUser.uid}`)
+    //After photo uploads to storage, we make an entry on the users account
+    await updateDoc(change, {
+      photos: arrayUnion({
+        path: `images/universal/${auth.currentUser.uid}/${date}.jpg`,
         visibility: value,
         caption: '',
         likes: 0,
         comments: 0,
-      }]
+      })
     })
     setImage(null)
   }
