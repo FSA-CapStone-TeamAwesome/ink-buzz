@@ -6,7 +6,8 @@ import WalletConnectProvider, {
 } from "react-native-walletconnect";
 
 const noncer = () => {
-  return toString(Date.now())
+  const nonce = Date.now()
+  return nonce
 }
 
 const WalletConnectExample = () => {
@@ -20,8 +21,8 @@ const WalletConnectExample = () => {
       {!!hasWallet && (
         <Button
           title="Send Transaction"
-          onPress={() =>
-            sendTransaction({
+          onPress={ async () =>
+            await sendTransaction({
               from: "0x35aa69a3b9a11e814cb405f4b15bd83375c25da7",
               to: "0x73de20c61d696867a656b089762ad52342dc365e",
               data: "0x636F6E74616374",
