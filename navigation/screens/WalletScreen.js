@@ -5,33 +5,63 @@ import WalletConnectProvider, {
   useWalletConnect,
 } from "react-native-walletconnect";
 
+import QRCodeModal from "@walletconnect/qrcode-modal";
+
 const WalletConnectExample = () => {
-  const { createSession, killSession, session, signTransaction } =
-    useWalletConnect();
+  const { createSession, killSession, session, sendTransaction, signTransaction } =
+  useWalletConnect();
   const hasWallet = !!session.length;
+
+
+  // Function to convert decimal to acceptable hexidecimal for transactions
+
+  // const makeHex = (inputNumber) => {
+  //   var hexNumber = new BN(String(inputNumber), 10);
+
+  //   console.log(hexNumber)
+
+  //   return "0x" + hexNumber.toString(16)
+
+  // }
+
+  console.log(session[0].accounts[0])
+
+  const transactionDetails = {
+    // from: "0x35aa69a3b9a11e814cb405f4b15bd83375c25da7",
+    from: session[0].accounts[0],
+    to: "0x73de20c61d696867a656b089762ad52342dc365e",
+    value: "0x16345785d8a0000", // in Wei, or 10^-18 ETH
+  }
+
+
+  async function returnHash(transactionDetails) {
+    const transactionHash = await sendTransaction(transactionDetails);
+
+    console.log(transactionHash);
+
+    return transactionHash;
+  }
+
+
+
+
+
   return (
     <>
       {!hasWallet && <Button title="Connect" onPress={createSession} />}
       {!!hasWallet && (
         <Button
-          title="Sign Transaction"
+        title="Sign Transaction"
           onPress={() =>
-            signTransaction({
-              from: "0xbc28Ea04101F03aA7a94C1379bc3AB32E65e62d3",
-              to: "0x89D24A7b4cCB1b6fAA2625Fe562bDd9A23260359",
-              data: "0x",
-              gasPrice: "0x02540be400",
-              gas: "0x9c40",
-              value: "0x00",
-              nonce: "0x0114",
-            })
+            returnHash(transactionDetails)
           }
         />
-      )}
+        )}
       {!!hasWallet && <Button title="Disconnect" onPress={killSession} />}
     </>
   );
 };
+
 
 export default function App() {
   return (
