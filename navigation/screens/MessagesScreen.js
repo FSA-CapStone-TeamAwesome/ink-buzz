@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import { auth, db, app } from "../../config/firebase";
 
-import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 
 
@@ -19,13 +19,13 @@ const MessagesScreen = ({ navigation }) => {
   const recipient = 'L814iNPsM1h7WE99xnRi0v74zFI3'
 
 
-  setDoc(doc(db,
-    `messages/queue/${recipient}`, 'message'),
+  addDoc(collection(db,
+    `messages/queue/${recipient}`),
     {artReference: null,
     content: "Yo and lo.",
     from: auth.currentUser.uid,
     photoUrl: null,
-    timestamp: Date.now()})
+    timestamp: Timestamp.fromMillis(Date.now())})
 
 
 
